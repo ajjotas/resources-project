@@ -6,6 +6,7 @@ services:
             dockerfile: Dockerfile
         command: 'php artisan serve --host=0.0.0.0'
         volumes:
+            - /app/vendor
             - .:/app
         ports:
             - 8000:8000
