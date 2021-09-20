@@ -9,7 +9,7 @@ Then, you have the option to run locally or using Docker.
 
 On a *command prompt*, run *docker-compose up -d --build* at the project root.
 
-The application will start running on *htt://localhost:8000*.
+The application will start running on *http://localhost:8000*.
 
 ## Run locally, without docker:
 **What you need installed:** PHP version 7.2 or higher, Composer v2.1.8
@@ -20,4 +20,4 @@ Delete any files in the *bootstrap/cache* directory.
 
 Run *php artisan serve*.
 
-The application will start running on *htt://localhost:8000*.
+The application will start running on *http://localhost:8000*.
