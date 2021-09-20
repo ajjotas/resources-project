@@ -1,19 +1,15 @@
-# remote_company_frontend2
+## Run using docker:
+**What you need installed:** Docker
 
-## Project setup
-```
-npm install
-```
+On a *command prompt*, run *docker-compose up -d --build* at the project root.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+The application will start running on *htt://localhost:8080*.
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## Run locally without docker:
+**What you need installed:** Npm v7.23.0
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+At the project root, run  the command *npm install*.
+
+Run *npm run serve*.
+
+The application will start running on *htt://localhost:8080*.
