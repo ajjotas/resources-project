@@ -9,4 +9,4 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /app
 COPY . .
 RUN php artisan cache:clear | rm -rf bootstrap/cache/*
-RUN composer install
+RUN composer install --prefer-dist
