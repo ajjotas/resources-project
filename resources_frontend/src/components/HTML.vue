@@ -17,12 +17,13 @@
           ></b-form-textarea>          
         </b-form-group>
         <b-form-group class="mt-3" label="HTML snippet" label-for="html-snippet">
-          <b-form-textarea
-            id="html-snippet"
-            v-model="htmlSnippet"
-            rows="5"
-            max-rows="50"
-          ></b-form-textarea>
+          <prism-editor
+            class="my-editor" 
+            v-model="htmlSnippet" 
+            :highlight="highlighter" 
+            line-numbers 
+            placeholder="Write your HTML snippet here">
+          </prism-editor>  
         </b-form-group>
         <b-button class="mt-3 float-right" squared variant="success" @click="add">Add HTML snippet</b-button>
       </b-card>
@@ -59,29 +60,39 @@
           ></b-form-textarea> 
         </b-form-group>
         <b-form-group class="mt-3" label="HTML snippet" label-for="html-snippet">
-          <b-form-textarea
-            id="modal-snippet"
-            v-model="modalHtmlSnippet.snippet"
-            rows="5"
-            max-rows="50"
-            :disabled="disabledFields"
-          ></b-form-textarea>
+          <prism-editor
+            class="my-editor" 
+            v-model="modalHtmlSnippet.snippet" 
+            :highlight="highlighter" 
+            line-numbers 
+            placeholder="Write your HTML snippet here"
+            :readonly="disabledFields">
+          </prism-editor>                    
         </b-form-group>
       </div>    
       <div class="mt-3 float-right">
         <b-button squared variant="secondary" @click="copySnippet(modalHtmlSnippet.snippet)">Copy snippet to clipboard</b-button>              
         <b-button v-if="editMode" squared variant="success" @click="update">Update</b-button>                
-      </div>       
+      </div>  
     </b-modal>  
-  </div>
+      </div>
 </template>
 
 <script>
+  import { PrismEditor } from 'vue-prism-editor';
+  import { highlight, languages } from 'prismjs/components/prism-core';
+  import 'vue-prism-editor/dist/prismeditor.min.css'; 
+  import 'prismjs/components/prism-markup';
+  import 'prismjs/themes/prism-tomorrow.css'; 
+
 export default {
   name: 'HTML',
   props: {
     mode: String,
     htmlSnippets: Array
+  },
+  components: {
+    PrismEditor,
   },
 
   data() {
@@ -209,7 +220,11 @@ export default {
       this.errorMessage = null;
       this.modalSuccessMessage = null;
       this.modalErrorMessage = null;      
-    },         
+    },     
+    
+    highlighter(code) {
+      return highlight(code, languages.markup);
+    },    
   }
 }
 </script>
@@ -220,5 +235,18 @@ export default {
 }
 #html-description {
   resize: none;
+}
+
+.my-editor {
+  background: #2d2d2d;
+  color: #ccc;
+  font-family: Fira code, Fira Mono, Consolas, Menlo, Courier, monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 5px;
+}
+
+.prism-editor__textarea:focus {
+  outline: none;
 }
 </style>
