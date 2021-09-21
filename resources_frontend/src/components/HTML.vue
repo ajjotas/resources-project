@@ -13,7 +13,7 @@
             id="html-description"
             v-model="htmlDescription"
             rows="3"
-            maxlength="200"
+            maxlength="200"            
           ></b-form-textarea>          
         </b-form-group>
         <b-form-group class="mt-3" label="HTML snippet" label-for="html-snippet">
@@ -46,14 +46,15 @@
         <b-alert variant="success" :show="modalSuccessMessage ? true : false">{{modalSuccessMessage}}</b-alert> 
         <b-alert variant="danger" :show="modalErrorMessage ? true : false">{{modalErrorMessage}}</b-alert>     
         <b-form-group label="HTML snippet title" label-for="html-title">
-          <b-form-input maxlength="50" id="html-title" v-model="modalHtmlSnippet.title" trim :disabled="disabledFields"></b-form-input>
+          <b-form-input maxlength="50" id="modal-html-title" v-model="modalHtmlSnippet.title" trim :disabled="disabledFields"></b-form-input>
         </b-form-group>      
         <b-form-group class="mt-3" label="HTML snippet description" label-for="html-description">
           <b-form-textarea
-            id="html-description"
+            id="modal-html-description"
             v-model="modalHtmlSnippet.description"
             rows="3"
             maxlength="200"
+            max-rows="3"
             :disabled="disabledFields"
           ></b-form-textarea> 
         </b-form-group>
@@ -212,3 +213,12 @@ export default {
   }
 }
 </script>
+
+<style>
+#modal-html-description {
+  resize: none;
+}
+#html-description {
+  resize: none;
+}
+</style>
