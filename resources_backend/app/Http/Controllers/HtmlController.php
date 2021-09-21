@@ -23,7 +23,7 @@ class HtmlController extends Controller
 
     public function add(AddUpdateHtmlRequest $request)
     {
-        $this->htmlRepository->create($request->only(['description', 'snippet']));
+        $this->htmlRepository->create($request->only(['title', 'description', 'snippet']));
         
         return response()->json(['success'=>'Html snippet added successfully.']);   
     }
@@ -37,7 +37,7 @@ class HtmlController extends Controller
     
     public function update($id, AddUpdateHtmlRequest $request)
     {
-        $this->htmlRepository->update($id, $request->only(['description', 'snippet']));
+        $this->htmlRepository->update($id, $request->only(['title', 'description', 'snippet']));
 
         return response()->json(['success'=>'Html snippet updated successfully.']);   
     }    

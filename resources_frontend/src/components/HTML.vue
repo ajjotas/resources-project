@@ -5,8 +5,16 @@
       <b-alert variant="danger" :show="errorMessage ? true : false">{{errorMessage}}</b-alert>   
 
       <b-card title="Add a new HTML snippet">
-        <b-form-group label="HTML snippet description" label-for="html-description">
-          <b-form-input maxlength="50" id="html-description" v-model="htmlDescription" trim></b-form-input>
+        <b-form-group label="HTML snippet title" label-for="html-title">
+          <b-form-input maxlength="50" id="html-title" v-model="htmlTitle" trim></b-form-input>
+        </b-form-group>        
+        <b-form-group class="mt-3" label="HTML snippet description" label-for="html-description">
+          <b-form-textarea
+            id="html-description"
+            v-model="htmlDescription"
+            rows="3"
+            maxlength="200"
+          ></b-form-textarea>          
         </b-form-group>
         <b-form-group class="mt-3" label="HTML snippet" label-for="html-snippet">
           <b-form-textarea
@@ -36,9 +44,18 @@
       </template>      
       <div class="d-block">
         <b-alert variant="success" :show="modalSuccessMessage ? true : false">{{modalSuccessMessage}}</b-alert> 
-        <b-alert variant="danger" :show="modalErrorMessage ? true : false">{{modalErrorMessage}}</b-alert>          
-        <b-form-group label="HTML snippet description" label-for="html-description">
-          <b-form-input maxlength="50" id="html-description" v-model="modalHtmlSnippet.description" trim :disabled="disabledFields"></b-form-input>
+        <b-alert variant="danger" :show="modalErrorMessage ? true : false">{{modalErrorMessage}}</b-alert>     
+        <b-form-group label="HTML snippet title" label-for="html-title">
+          <b-form-input maxlength="50" id="html-title" v-model="modalHtmlSnippet.title" trim :disabled="disabledFields"></b-form-input>
+        </b-form-group>      
+        <b-form-group class="mt-3" label="HTML snippet description" label-for="html-description">
+          <b-form-textarea
+            id="html-description"
+            v-model="modalHtmlSnippet.description"
+            rows="3"
+            maxlength="200"
+            :disabled="disabledFields"
+          ></b-form-textarea> 
         </b-form-group>
         <b-form-group class="mt-3" label="HTML snippet" label-for="html-snippet">
           <b-form-textarea
@@ -73,13 +90,14 @@ export default {
       modalSuccessMessage: null,
       modalErrorMessage: null,         
 
+      htmlTitle: null,
       htmlDescription: null,
       htmlSnippet: null,
       modalHtmlSnippet: {},
 
       htmlTable: {
         fields: [
-          { key: "description", label: "Description" },
+          { key: "title", label: "Title" },          
           { key: "id", label: "" }
         ],
       },   
@@ -93,7 +111,7 @@ export default {
 
     modalTitle() {
       if (Object.keys.length) {
-        return this.editMode ? 'Edit ' + this.modalHtmlSnippet.description : 'View ' + this.modalHtmlSnippet.description;
+        return this.editMode ? 'Edit ' + this.modalHtmlSnippet.title : 'View ' + this.modalHtmlSnippet.title;
       }
       return '';
     },
@@ -107,13 +125,13 @@ export default {
     add() {
       this.clearMessages();
 
-      let validateFields = this.validateFields(this.htmlDescription, this.htmlSnippet);
+      let validateFields = this.validateFields(this.htmlTitle, this.htmlDescription, this.htmlSnippet);
       if (!validateFields.success) {
         this.errorMessage = validateFields.message;
         return
       }      
 
-      this.$http.post('html/add', {description: this.htmlDescription, snippet: this.htmlSnippet})
+      this.$http.post('html/add', {title: this.htmlTitle, description: this.htmlDescription, snippet: this.htmlSnippet})
         .then((response) => {
           this.$emit('html-changed');  
           this.clearFields();     
@@ -127,13 +145,13 @@ export default {
     update() {
       this.clearMessages();
 
-      let validateFields = this.validateFields(this.modalHtmlSnippet.description, this.modalHtmlSnippet.snippet);
+      let validateFields = this.validateFields(this.modalHtmlSnippet.title, this.modalHtmlSnippet.description, this.modalHtmlSnippet.snippet);
       if (!validateFields.success) {
         this.modalErrorMessage = validateFields.message;
         return
       }          
 
-      this.$http.put('html/update/'+this.modalHtmlSnippet.id, {description: this.modalHtmlSnippet.description, snippet: this.modalHtmlSnippet.snippet})
+      this.$http.put('html/update/'+this.modalHtmlSnippet.id, {title: this.modalHtmlSnippet.title, description: this.modalHtmlSnippet.description, snippet: this.modalHtmlSnippet.snippet})
         .then((response) => {
           this.$emit('html-changed');  
           this.clearFields();     
@@ -172,14 +190,15 @@ export default {
       navigator.clipboard.writeText(text);     
     }, 
 
-    validateFields(description, snippet) {
-      if (!(description && snippet)) { 
+    validateFields(title, description, snippet) {
+      if (!(title && description && snippet)) { 
         return {success: false, message: "Please fill in all the fields."};
       }
       return {success: true, message: ""};
     },    
     
     clearFields() {
+      this.htmlTitle = null;      
       this.htmlDescription = null;
       this.htmlSnippet = null;
     },

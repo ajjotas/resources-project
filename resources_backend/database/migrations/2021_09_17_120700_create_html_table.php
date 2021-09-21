@@ -15,7 +15,8 @@ class CreateHtmlTable extends Migration
     {
         Schema::create('html', function (Blueprint $table) {
             $table->integer('id')->primary();
-            $table->string('description', 50);
+            $table->string('title', 50);
+            $table->string('description', 200);
             $table->string('snippet');
         });
     }

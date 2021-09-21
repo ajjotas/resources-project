@@ -10,5 +10,5 @@ class Html extends Model
     protected $primaryKey = 'id';
     public $timestamps = false;
 
-    protected $fillable = ['id', 'description', 'snippet'];
+    protected $fillable = ['id', 'title', 'description', 'snippet'];
 }
