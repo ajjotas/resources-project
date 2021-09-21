@@ -1,8 +1,6 @@
 # How to run:
 
-Create a *.env* file with the same contents as the *.env.example* file.
-
-Then, you have the option to run locally or using Docker.
+You have the option to run locally or using Docker.
 
 ## Run using docker:
 **What you need installed:** Docker
